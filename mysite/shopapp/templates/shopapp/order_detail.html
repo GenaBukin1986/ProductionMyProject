@@ -1,27 +1,86 @@
 {% extends 'shopapp/base.html' %}
+{% load l10n %}
 
 {% block title %}
-  Order #{{ object.pk }} details
+  Заказ №{{ object.pk }} — Детали
 {% endblock %}
 
 {% block body %}
-  <h1>Order #{{ object.pk }}</h1>
-  <div>
-    <p>Order by {% firstof object.user.first_name object.user.username %}</p>
-    <p>Promocode: <code>{{ object.promocode }}</code></p>
-    <p>Delivery address: {{ object.delivery_address }}</p>
-    <div>
-      Product in order:
-      <ul>
-        {% for product in object.products.all %}
-          <li>{{ product.name }} for ${{ product.price }}</li>
-        {% endfor %}
+  <article class="order-detail card">
+    <header class="order-header">
+      <h1 class="order-title">Заказ №{{ object.pk }}</h1>
+      <p class="order-meta">
+        <span>от {{ object.created_at|date:"d E Y в H:i" }}</span>
+        {% if object.user %}
+          • клиент: <strong>{% firstof object.user.get_full_name object.user.username %}</strong>
+        {% endif %}
+      </p>
+    </header>
 
-      </ul>
+    <div class="order-info grid">
+      <div class="info-section">
+        <h2 class="section-title">Информация о заказе</h2>
+        <dl class="info-list">
+          <div>
+            <dt>Промокод:</dt>
+            <dd>
+              {% if object.promocode %}
+                <code class="tag promo-tag">{{ object.promocode|upper }}</code>
+              {% else %}
+                <span class="text-muted">—</span>
+              {% endif %}
+            </dd>
+          </div>
+          <div>
+            <dt>Адрес доставки:</dt>
+            <dd>
+              {% if object.delivery_address %}
+                {{ object.delivery_address|linebreaksbr }}
+              {% else %}
+                <span class="text-muted">Не указан</span>
+              {% endif %}
+            </dd>
+          </div>
+          <div>
+            <dt>Контакт:</dt>
+            <dd>
+              {% if object.phone %}
+                📞 {{ object.phone }}
+              {% else %}
+                <span class="text-muted">—</span>
+              {% endif %}
+            </dd>
+          </div>
+        </dl>
+      </div>
+
+      <div class="info-section">
+        <h2 class="section-title">
+          Товар{% if object.products.count == 1 %}{{ "" }}{% else %}ы{% endif %}
+          ({{ object.products.count }})
+        </h2>
+        {% if object.products.exists %}
+          <ul class="product-list">
+            {% for product in object.products.all %}
+              <li class="product-item">
+                <span class="product-name">{{ product.name }}</span>
+                <span class="product-price">
+                  {% localize on %}
+                    {{ product.price|floatformat:2 }} ₽
+                  {% endlocalize %}
+                </span>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="text-muted">В заказе нет товаров.</p>
+        {% endif %}
+      </div>
     </div>
-  </div>
 
-  <div>
-    <a href="{% url 'shopapp:orders_list' %}">Back to orders</a>
-  </div>
+    <footer class="order-actions">
+      <a href="{% url 'shopapp:orders_list' %}" class="btn btn-outline">&larr; Назад к списку заказов</a>
+      <!-- Сюда можно добавить: "Печать", "Отменить", "Изменить" — по правам -->
+    </footer>
+  </article>
 {% endblock %}

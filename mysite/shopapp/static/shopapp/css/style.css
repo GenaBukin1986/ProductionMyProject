@@ -1,0 +1,476 @@
+/* style.css — современный базовый стиль */
+:root {
+  --bg: #ffffff;
+  --text: #1a1a1a;
+  --text-muted: #666666;
+  --border: #e5e7eb;
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+  --radius: 8px;
+  --transition: all 0.2s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #f9fafb;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 1.25rem; /* 20px на десктопе, адаптируется */
+}
+
+.header, .footer {
+  background: var(--bg);
+  padding-block: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.header {
+  box-shadow: var(--shadow-sm);
+}
+
+.footer {
+  margin-top: auto;
+  padding-block: 1.5rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.main {
+  padding-block: 2rem;
+}
+
+/* Утилиты (по желанию — можно расширить) */
+.text-center { text-align: center; }
+.text-muted { color: var(--text-muted); }
+.mb-4 { margin-bottom: 1rem; }
+.mt-4 { margin-top: 1rem; }
+
+/* Адаптив */
+@media (max-width: 768px) {
+  .container {
+    padding-inline: 1rem;
+  }
+
+  .main {
+    padding-block: 1.5rem;
+  }
+}
+/* ——— Order Detail ——— */
+.order-detail {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.order-header {
+  background: #f8fafc;
+  padding: 1.5rem 1.5rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.order-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+}
+
+.order-meta {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+/* Grid layout for info sections */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  padding: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.section-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--text);
+}
+
+.info-list div {
+  display: flex;
+  margin-bottom: 0.75rem;
+}
+
+.info-list dt {
+  font-weight: 500;
+  width: 140px;
+  flex-shrink: 0;
+}
+
+.info-list dd {
+  flex: 1;
+  margin-left: 0.5rem;
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  border-radius: 4px;
+  background: var(--primary-light);
+  color: var(--primary);
+  font-family: monospace;
+}
+
+.promo-tag {
+  background: #f0fdf4;
+  color: #166534;
+}
+
+.product-list {
+  list-style: none;
+}
+
+.product-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed var(--border);
+}
+
+.product-item:last-child {
+  border-bottom: none;
+}
+
+.product-name {
+  font-weight: 500;
+}
+
+.product-price {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.order-actions {
+  padding: 1rem 1.5rem;
+  background: #f9fafb;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* ——— Buttons ——— */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: var(--radius);
+  text-decoration: none;
+  cursor: pointer;
+  transition: var(--transition);
+  border: 1px solid transparent;
+}
+
+.btn-outline {
+  color: var(--text);
+  background: transparent;
+  border-color: var(--border);
+}
+
+.btn-outline:hover {
+  background: #f3f4f6;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+/* ——— Page Header ——— */
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.page-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.page-subtitle {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+/* ——— Orders Grid ——— */
+.orders-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.25rem;
+}
+
+/* ——— Order Card ——— */
+.order-card {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.order-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+}
+
+.order-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.25rem 1.25rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.order-number {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.order-link {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.order-link:hover {
+  color: var(--primary);
+}
+
+.order-date {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.order-card-body {
+  padding: 1.25rem;
+  flex: 1;
+}
+
+.order-customer {
+  font-size: 0.875rem;
+  margin: 0 0 0.75rem;
+  color: var(--text-muted);
+}
+
+.order-summary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+.order-address {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.order-card-footer {
+  padding: 0 1.25rem 1.25rem;
+  border-top: 1px solid var(--border);
+}
+
+/* ——— Empty State ——— */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.empty-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.empty-text {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+/* ——— Header with Action ——— */
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.page-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* ——— Products Grid ——— */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* ——— Product Card ——— */
+.product-card {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+}
+
+.product-image-wrapper {
+  aspect-ratio: 4 / 3;
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-placeholder {
+  font-size: 2.5rem;
+  color: #cbd5e1;
+}
+
+.product-info {
+  padding: 1.25rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-name {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem;
+}
+
+.product-link {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.product-link:hover {
+  color: var(--primary);
+}
+
+/* ——— Price ——— */
+.product-price-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.price-with-discount {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.price-current {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.price-current.standalone {
+  font-size: 1.375rem;
+}
+
+.price-old {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 4px;
+}
+
+.discount-badge {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+/* ——— Product Actions ——— */
+.product-actions {
+  margin-top: auto;
+}

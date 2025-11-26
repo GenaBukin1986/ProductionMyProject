@@ -1,18 +1,35 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>
-    {% block title %}
-      Base Title
-    {% endblock %}
-  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Интернет-магазин{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
+  <div class="layout">
+    <header class="header">
+      <div class="container">
+        {% block header %}{% endblock %}
+      </div>
+    </header>
 
-{% block body %}
-  Base body
-{% endblock %}
+    <main class="main">
+      <div class="container">
+        {% block body %}
+          <!-- Основной контент будет здесь -->
+        {% endblock %}
+      </div>
+    </main>
 
+    <footer class="footer">
+      <div class="container">
+        {% block footer %}
+          <p>&copy; {% now "Y" %}. Все права защищены.</p>
+        {% endblock %}
+      </div>
+    </footer>
+  </div>
 </body>
 </html>

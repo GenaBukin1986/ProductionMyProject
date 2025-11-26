@@ -1,34 +1,74 @@
 {% extends 'shopapp/base.html' %}
+{% load l10n static %}
 
 {% block title %}
-  Products list
+  Каталог товаров
+{% endblock %}
+
+{% block header %}
+  <div class="header-content">
+    <h1 class="page-title">Каталог товаров</h1>
+    <a href="{% url 'shopapp:product_create' %}" class="btn btn-primary">+ Добавить товар</a>
+  </div>
 {% endblock %}
 
 {% block body %}
-  <h1>Products:</h1>
   {% if products %}
-    <div>
-    {% for product in products %}
-      <div>
-        <p><a href="{% url 'shopapp:product_details' pk=product.pk %}"
-        >Name: {{ product.name }}</a></p>
-        <p>Price: {{ product.price }}</p>
-        <p>Discount: {% firstof product.discount 'no discount' %}</p>
+    <div class="products-grid">
+      {% for product in products %}
+        <article class="product-card card">
+          <div class="product-image-wrapper">
+            {% if product.preview %}
+              <img
+                src="{{ product.preview.url }}"
+                alt="{{ product.name|default:'Товар' }}"
+                class="product-image"
+                loading="lazy"
+              >
+            {% else %}
+              <div class="product-placeholder" aria-hidden="true">
+                <span>📷</span>
+              </div>
+            {% endif %}
+          </div>
 
-        {% if product.preview %}
-          <img src="{{ product.preview.url }}" alt="{{ product.preview.name }}">
-        {% endif %}
-      </div>
-    {% endfor %}
+          <div class="product-info">
+            <h2 class="product-name">
+              <a href="{% url 'shopapp:product_details' pk=product.pk %}" class="product-link">
+                {{ product.name }}
+              </a>
+            </h2>
 
+            <div class="product-price-group">
+              {% if product.discount and product.discount > 0 %}
+                <div class="price-with-discount">
+                  <span class="price-current">
+                    {% localize on %}{{ product.price|floatformat:2 }}{% endlocalize %} ₽
+                  </span>
+                  <span class="price-old">
+                    {% localize on %}{{ product.price|add:product.discount|floatformat:2 }}{% endlocalize %} ₽
+                  </span>
+                </div>
+                <span class="badge discount-badge">−{{ product.discount }} ₽</span>
+              {% else %}
+                <span class="price-current standalone">
+                  {% localize on %}{{ product.price|floatformat:2 }}{% endlocalize %} ₽
+                </span>
+              {% endif %}
+            </div>
+
+            <div class="product-actions">
+              <a href="{% url 'shopapp:product_details' pk=product.pk %}" class="btn btn-outline">Подробнее</a>
+            </div>
+          </div>
+        </article>
+      {% endfor %}
     </div>
-
   {% else %}
-    <h3>No products yet</h3>
+    <div class="empty-state">
+      <h2 class="empty-title">Товаров пока нет</h2>
+      <p class="empty-text">Добавьте первый товар — и он появится в каталоге.</p>
+      <a href="{% url 'shopapp:product_create' %}" class="btn btn-primary">Добавить товар</a>
+    </div>
   {% endif %}
-
-  <div>
-    <a href="{% url 'shopapp:product_create' %}"
-      >Create a new product</a>
-  </div>
 {% endblock %}

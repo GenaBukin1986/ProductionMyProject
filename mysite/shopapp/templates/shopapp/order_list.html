@@ -1,35 +1,74 @@
 {% extends 'shopapp/base.html' %}
+{% load l10n %}
 
 {% block title %}
-  Orders list
+  Мои заказы
 {% endblock %}
 
 {% block body %}
-  <h1>Orders:</h1>
-  {% if object_list %}
-    <div>
-      {% for order in object_list %}
-        <div>
-          <p><a href="{% url 'shopapp:order_details' pk=order.pk %}"
-          >Details #{{ order.pk }}</a></p>
-          <p>Order by {% firstof order.user.first_name order.user.username %}</p>
-          <p>Promocode: <code>{{ order.promocode }}</code></p>
-          <p>Delivery address: {{ order.delivery_address }}</p>
-          <div>
-            Product in order:
-            <ul>
-              {% for product in order.products.all %}
-                <li>{{ product.name }} for ${{ product.price }}</li>
-              {% endfor %}
+  <header class="page-header">
+    <h1 class="page-title">Мои заказы</h1>
+    {% if object_list %}
+      <p class="page-subtitle">Всего: {{ object_list|length }} заказ{% if object_list|length == 1 %}{{ "" }}{% elif object_list|length > 1 and object_list|length < 5 %}а{% else %}ов{% endif %}</p>
+    {% endif %}
+  </header>
 
-            </ul>
+  {% if object_list %}
+    <div class="orders-grid">
+      {% for order in object_list %}
+        <article class="order-card card">
+          <div class="order-card-header">
+            <h2 class="order-number">
+              <a href="{% url 'shopapp:order_details' pk=order.pk %}" class="order-link">
+                Заказ №{{ order.pk }}
+              </a>
+            </h2>
+            {% if order.created_at %}
+              <time class="order-date" datetime="{{ order.created_at|date:'c' }}">
+                {{ order.created_at|date:"d E Y" }}
+              </time>
+            {% endif %}
           </div>
 
-        </div>
-      {% endfor %}
+          <div class="order-card-body">
+            <p class="order-customer">
+              {% if order.user %}
+                Клиент: <strong>{% firstof order.user.get_full_name order.user.username %}</strong>
+              {% else %}
+                <span class="text-muted">Гость</span>
+              {% endif %}
+            </p>
 
+            <div class="order-summary">
+              <div>
+                <strong>{{ order.products.count }}</strong>
+                товар{% if order.products.count == 1 %}{{ "" }}{% elif order.products.count < 5 %}а{% else %}ов{% endif %}
+              </div>
+              {% if order.promocode %}
+                <code class="tag promo-tag">{{ order.promocode|upper }}</code>
+              {% endif %}
+            </div>
+
+            {% if order.delivery_address %}
+              <p class="order-address">
+                📍 {{ order.delivery_address|truncatechars:60 }}
+              </p>
+            {% endif %}
+          </div>
+
+          <div class="order-card-footer">
+            <a href="{% url 'shopapp:order_details' pk=order.pk %}" class="btn btn-outline">
+              Подробнее &rarr;
+            </a>
+          </div>
+        </article>
+      {% endfor %}
     </div>
   {% else %}
-    <h3>No orders yet</h3>
+    <div class="empty-state">
+      <h2 class="empty-title">Заказов пока нет</h2>
+      <p class="empty-text">Оформите первый заказ — и он появится здесь.</p>
+      <a href="{% url 'shopapp:products_list' %}" class="btn btn-primary">Перейти в каталог</a>
+    </div>
   {% endif %}
 {% endblock %}
