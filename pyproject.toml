@@ -1,0 +1,22 @@
+[project]
+name = "prod"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "GenaBukin1986",email = "mishanya_1973user@mail.ru"}
+]
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "django (==4.2)",
+    "django-debug-toolbar (==4.0.0)",
+    "django-filter (==22.1)",
+    "djangorestframework (==3.14.0)",
+    "pillow (==9.4.0)",
+    "gunicorn (==20.1.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
